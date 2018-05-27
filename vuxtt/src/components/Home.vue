@@ -3,7 +3,7 @@
         <banner title="首页"></banner>
         <div style="padding:15px 25%;">
             <x-button class="mybtn" type="primary" text="查看投票" link="/showlist"></x-button>
-            <x-button class="mybtn" plain type="primary" text="创建投票" link="/hello"></x-button>
+            <x-button class="mybtn" plain type="primary" text="创建投票" link="/create"></x-button>
             <x-button class="mybtn" type="warn" text="即出登录" v-on:click.native="logout"></x-button>
         </div>
 

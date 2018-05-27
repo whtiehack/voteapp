@@ -1,7 +1,7 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-import FastClick from 'fastclick'
+// import FastClick from 'fastclick'
 import VueRouter from 'vue-router'
 import App from './App'
 import Home from './components/Home'
@@ -9,6 +9,7 @@ import HelloWorld from './components/HelloWorld';
 import ShowList from './components/ShowList';
 import Login from './components/Login';
 import Banner from './components/Banner';
+import CreateVote from './components/CreateVote';
 import NotFound from './components/NotFound';
 import {AjaxPlugin} from 'vux'
 
@@ -60,6 +61,13 @@ const routes = [
 		}
 	},
 	{
+		path:'/create',
+		component:CreateVote,
+		meta: {
+			title: '创建投票'
+		}
+	},
+	{
 		path:'*',
 		component:NotFound,
 		meata:{
@@ -72,7 +80,7 @@ const router = new VueRouter({
 	routes
 })
 
-FastClick.attach(document.body)
+// FastClick.attach(document.body)
 
 Vue.config.productionTip = false
 
