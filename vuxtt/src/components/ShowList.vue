@@ -4,35 +4,67 @@
         <banner title="投票列表"></banner>
         <group label-width="5em" title="投票列表:">
             <template v-if="vote.length">
-                <cell  v-for="(item,key) in vote" primary="content" :title="item.title" :value="item.value" :key="key"></cell>
-                <cell title="flex-start" align-items="flex-start" value="long long long longlong longlong longlong longlong longlong longlong longlong longlong long"></cell>
+                <cell primary="title" title="flex-start"
+                      align-items="flex-start" v-for="item in vote"  @click.native="clickItem(item.id)"
+                      :title="item.title" :key="item.id" is-link>
+                    <flexbox orient="vertical">
+                        <flexbox-item v-for="(opinion,oidx) in item.opinions" :key="oidx" >
+                            <div class="flex-demo">{{(oidx+1)+'. ' + opinion}}</div>
+                        </flexbox-item>
+                    </flexbox>
+                </cell>
             </template>
             <template v-else>
                 <p>No vote left!</p>
             </template>
         </group>
-        <div style="margin:15px">
+        <div style="padding:15px 25%;">
             <x-button class="mybtn" type="primary" text="返回" link="BACK"></x-button>
         </div>
     </div>
 </template>
 
 <script>
+    import {Flexbox,FlexboxItem,} from 'vux';
 	export default {
 		name: "show-list",
+        components:{
+	        Flexbox,
+	        FlexboxItem,
+        },
         data(){
 	        return {
 		        vote:[
                     {
-                    	title:'aaaaa title',
-                        value:'vvvafdlaf\nfdafdsa'
+                    	id:"ccxx",
+                    	title:'aaaaa tfdsafdsafitle',
+                      //  value:'vvvafdlaf\nfdafdsa'
+                        opinions:[
+                        	'afdac','faaadacc'
+                        ]
+                    },
+                    {
+                    	id:"34324",
+                    	title:'vvccdfsafdsafdsfdsfc',
+	                    opinions:[
+                        	'vdfdfcca','xxcc','xxfdsaaaaaaa','fdsf'
+                        ]
                     }
                 ],
+            }
+        },
+        methods:{
+			clickItem(id){
+				console.log('click id',id);
             }
         }
 	}
 </script>
 
 <style scoped>
-
+    .flex-demo {
+        color: grey;
+        border-radius: 4px;
+        background-clip: padding-box;
+    }
 </style>

@@ -19,14 +19,9 @@
             </flexbox>
             <div style="margin-top:10px;margin-bottom:10px;">
                 <group title="投票选项：">
-                    <flexbox v-for="(item,index) in items" :key="index">
-                        <flexbox-item :span="10">
-                            <cell  :title="(index+1)+'. ' +item" ></cell>
-                        </flexbox-item>
-                        <flexbox-item>
-                            <x-button class="mybtn" type="warn" text="X" v-on:click.native="delitem(index)"></x-button>
-                        </flexbox-item>
-                    </flexbox>
+                    <cell v-for="(item,index) in items" :title="(index+1)+'. ' +item" :key="index">
+                        <x-button  type="warn" text="X" v-on:click.native="delitem(index)"></x-button>
+                    </cell>
                 </group>
             </div>
             <div style="padding:15px 25%;">
@@ -53,7 +48,7 @@
 				title:'',
 				remarks:'',
 				curAddOpinion:'',
-                items:['aaa','bbb','ccc'],
+                items:[],
             }
         },
         methods:{
