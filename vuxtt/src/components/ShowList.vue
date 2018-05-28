@@ -4,7 +4,7 @@
         <banner title="投票列表"></banner>
         <group label-width="5em" title="投票列表:">
             <template v-if="vote.length">
-                <cell primary="title" title="flex-start"
+                <cell primary="title" 
                       align-items="flex-start" v-for="item in vote"  @click.native="clickItem(item.id)"
                       :title="item.title" :key="item.id" is-link>
                     <flexbox orient="vertical">

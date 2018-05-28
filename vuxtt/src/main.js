@@ -36,7 +36,7 @@ const routes = [
 		path: '/',
 		component: Home,
 		meta: {
-			title: '首页'
+			title: '实时交互式投票-首页'
 		}
 	},
 	{
@@ -70,7 +70,7 @@ const routes = [
 	{
 		path:'*',
 		component:NotFound,
-		meata:{
+		meta:{
 			title:'404'
 		}
 	}
