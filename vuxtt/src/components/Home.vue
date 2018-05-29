@@ -32,7 +32,7 @@
         methods:{
 	        logout:function(){
 		    	console.log('logout click');
-		    	this.$router.replace('/login');
+		    	this.$router.push('/login');
             }
         },
 		created() {
@@ -47,6 +47,4 @@
 <style>
 
 
-    .mybtn{
-    }
 </style>

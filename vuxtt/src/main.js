@@ -31,6 +31,15 @@ router.push({ path: `/user/${userId}` }) // -> /user/123
 // 这里的 params 不生效
 router.push({ path: '/user', params: { userId }}) // -> /user
  */
+Vue.prototype.$goBack = function(){
+	if(window.history.length <= 1){
+		this.$router.push('/');
+	}else{
+		this.$router.go(-1);
+	}
+}
+
+ 
 const routes = [
 	{
 		path: '/',
@@ -84,6 +93,7 @@ router.beforeEach((to, from, next) => {
 	if (to.meta.title) {
 		document.title = to.meta.title
 	}
+	console.log('to.fullpath',to.fullPath);
 	next()
 })
 FastClick.attach(document.body)

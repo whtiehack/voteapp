@@ -19,7 +19,7 @@
             </template>
         </group>
         <div style="padding:15px 25%;">
-            <x-button class="mybtn" type="primary" text="返回" link="BACK"></x-button>
+            <x-button class="mybtn" type="primary" text="返回" @click.native="goBack"></x-button>
         </div>
     </div>
 </template>
@@ -56,6 +56,9 @@
         methods:{
 			clickItem(id){
 				console.log('click id',id);
+            },
+            goBack(){
+                this.$goBack();
             }
         }
 	}
