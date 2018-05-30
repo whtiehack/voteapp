@@ -1,6 +1,5 @@
 <template>
     <div>
-        <banner title="登录&注册"></banner>
         <div>
             <group>
                 <x-input  title="姓名：" @keyup.enter.native="nameEnter" style="padding:15px" v-model="username" :max="10" ref="nameinput"   placeholder="输入姓名"  ></x-input>
@@ -26,7 +25,7 @@
         methods:{
 		    loginClick(){
 		    	console.log('loginclick')
-                this.$router.push('/');
+                this.$router.replace('/');
             },
             nameEnter(){
                 this.$refs.pwdInput.focus()

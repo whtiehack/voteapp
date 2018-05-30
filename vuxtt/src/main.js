@@ -10,11 +10,14 @@ import ShowList from './components/ShowList';
 import Login from './components/Login';
 import Banner from './components/Banner';
 import CreateVote from './components/CreateVote';
+import ShowVote from './components/ShowVote';
 import NotFound from './components/NotFound';
 import {AjaxPlugin} from 'vux'
+import Vuex from 'vuex';
 
 Vue.use(AjaxPlugin)
 Vue.use(VueRouter)
+Vue.use(Vuex);
 
 import {XButton, Box,Group, Cell,Divider,XInput,} from 'vux'
 Vue.component('banner',Banner);
@@ -63,6 +66,10 @@ const routes = [
 		}
 	},
 	{
+		path:'/showvote',
+		component:ShowVote,
+	},
+	{
 		path:'/login',
 		component:Login,
 		meta: {
@@ -84,15 +91,29 @@ const routes = [
 		}
 	}
 ]
-
+const store = new Vuex.Store({
+  state: {
+    title: 'aa'
+  },
+  mutations: {
+    updateTitle (state,newTitle) {
+			if(newTitle){
+				state.title = newTitle;
+			}
+    }
+  }
+})
 const router = new VueRouter({
 	routes
 })
 router.beforeEach((to, from, next) => {
+	
 	/* 路由发生变化修改页面title */
 	if (to.meta.title) {
 		document.title = to.meta.title
+		store.commit('updateTitle',to.meta.title);
 	}
+	
 	console.log('to.fullpath',to.fullPath);
 	next()
 })
@@ -102,6 +123,7 @@ Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
+	store,
 	router,
 	render: h => h(App)
 }).$mount('#app-box')

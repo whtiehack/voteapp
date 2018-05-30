@@ -1,6 +1,5 @@
 <template>
     <div >
-        <banner title="创建投票"></banner>
         <div style="padding:0 15px;">
             <group title="创建投票：">
                 <x-input placeholder="标题" ref="titleInput"  @keyup.enter.native="titleEnter"></x-input>
@@ -82,7 +81,7 @@ export default {
       this.$refs.opinioninput.focus();
     },
     goBack:function(){
-      this.$router.replace('/');
+      this.$goBack('/');
     }
   }
 };

@@ -8,7 +8,14 @@
 <script>
 	export default {
 		name: "banner",
-        props:['title']
+        computed:{
+            title(){
+                return this.$store.state.title;
+            }
+        },
+        created(){
+            console.log('!!! banner created');
+        }
 	}
 </script>
 
