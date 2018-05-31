@@ -66,8 +66,9 @@ const routes = [
 		}
 	},
 	{
-		path:'/showvote',
+		path:'/showvote/:voteid',
 		component:ShowVote,
+		props:true
 	},
 	{
 		path:'/login',
@@ -93,7 +94,20 @@ const routes = [
 ]
 const store = new Vuex.Store({
   state: {
-    title: 'aa'
+		title: '',
+		voteDatas:{
+			'ccxx':{
+				title:'votetitle',
+				remarks:'备注备注',
+				opinions:[
+					'afdac','fa aad中文acc'
+				],
+				votes:[
+					['cc','bb'],
+					[],
+				]
+			}
+		}
   },
   mutations: {
     updateTitle (state,newTitle) {

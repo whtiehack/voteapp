@@ -45,6 +45,7 @@ export default {
   data: function() {
     return {
       title: "",
+      // 备注
       remarks: "",
       curAddOpinion: "",
       items: []

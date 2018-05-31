@@ -55,7 +55,7 @@
         methods:{
 			clickItem(id){
                 console.log('click id',id);
-                this.$router.push('/showvote');
+                this.$router.push('/showvote/'+id);
             },
             goBack(){
                 this.$goBack();
