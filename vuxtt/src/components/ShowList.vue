@@ -3,15 +3,19 @@
     <div>
         <group label-width="5em" title="投票列表:">
             <template v-if="vote.length">
-                <cell primary="title" 
+                <cell-box primary="title"
                       align-items="flex-start" v-for="item in vote"  @click.native="clickItem(item.id)"
                       :title="item.title" :key="item.id" is-link>
                     <flexbox orient="vertical">
-                        <flexbox-item v-for="(opinion,oidx) in item.opinions" :key="oidx" >
-                            <div class="flex-demo">{{(oidx+1)+'. ' + opinion}}</div>
+                        <flexbox-item>
+                            {{item.title}}
+                        </flexbox-item>
+                        <flexbox-item class="flex-demo">
+                            {{new Date(item.time).toLocaleString()}}
                         </flexbox-item>
                     </flexbox>
-                </cell>
+
+                </cell-box>
             </template>
             <template v-else>
                 <p>No vote left!</p>
@@ -24,30 +28,26 @@
 </template>
 
 <script>
-    import {Flexbox,FlexboxItem,} from 'vux';
+    import {Flexbox,FlexboxItem,CellBox} from 'vux';
 	export default {
 		name: "show-list",
         components:{
 	        Flexbox,
 	        FlexboxItem,
+            CellBox
         },
         data(){
 	        return {
 		        vote:[
                     {
                     	id:"ccxx",
-                    	title:'aaaaa tfdsafdsafitle',
-                      //  value:'vvvafdlaf\nfdafdsa'
-                        opinions:[
-                        	'afdac','faaadacc'
-                        ]
+                    	title:'aaaaa 22',
+                        time:1527862823373,
                     },
                     {
                     	id:"34324",
                     	title:'vvccdfsafdsafdsfdsfc',
-	                    opinions:[
-                        	'vdfdfcca','xxcc','xxfdsaaaaaaa','fdsf'
-                        ]
+                        time:1527602823373,
                     }
                 ],
             }

@@ -42,7 +42,7 @@ Vue.prototype.$goBack = function(){
 	}
 }
 
- 
+
 const routes = [
 	{
 		path: '/',
@@ -100,7 +100,7 @@ const store = new Vuex.Store({
 				title:'votetitle',
 				remarks:'备注备注',
 				opinions:[
-					'afdac','fa aad中文acc'
+					'afdacB','fa aad中文A'
 				],
 				votes:[
 					['cc','bb'],

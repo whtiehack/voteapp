@@ -2,8 +2,15 @@
     <div>
         <!-- 内容 -->
         <div v-if="voteData">
-            <checklist title="选择选项：" ref="checklist" :options="opinionObj" v-model="opinionValue" :max="1" @on-change="selectChange"></checklist>
-            
+            <x-input title="标题:" :value="voteData.title" readonly>
+            </x-input>
+            <x-textarea  :rows="2" title="备注:" readonly :value="voteData.remarks"></x-textarea>
+
+            <checklist title="选择选项：" ref="checklist" :options="opinionObj" v-model="opinionValue" :max="1" @on-change="selectChange">
+
+            </checklist>
+
+            <!-- 选中的投票信息-->
         </div>
         <div v-else>
         </div>
@@ -14,12 +21,15 @@
 </template>
 
 <script>
-import {Checklist} from 'vux';
+import {Checklist,XTextarea,Flexbox,FlexboxItem} from 'vux';
 export default {
   name: "show-vote",
   props:['voteid'],
   components:{
       Checklist,
+	  XTextarea,
+      Flexbox,
+      FlexboxItem,
   },
   data(){
       return {
