@@ -1,3 +1,4 @@
+改支持匿名 ，实时匿名投票？
 # vuxtt
 
 > A Vue.js project
