@@ -14,10 +14,12 @@ import ShowVote from './components/ShowVote';
 import NotFound from './components/NotFound';
 import {AjaxPlugin} from 'vux'
 import Vuex from 'vuex';
-
+import io from 'socket.io-client';
+import vueSocket from 'vue-socket.io';
 Vue.use(AjaxPlugin)
 Vue.use(VueRouter)
 Vue.use(Vuex);
+Vue.use(vueSocket,'http://127.0.0.1:3000');
 
 import {XButton, Box,Group, Cell,Divider,XInput,} from 'vux'
 Vue.component('banner',Banner);
@@ -121,13 +123,13 @@ const router = new VueRouter({
 	routes
 })
 router.beforeEach((to, from, next) => {
-	
+
 	/* 路由发生变化修改页面title */
 	if (to.meta.title) {
 		document.title = to.meta.title
 		store.commit('updateTitle',to.meta.title);
 	}
-	
+
 	console.log('to.fullpath',to.fullPath);
 	next()
 })

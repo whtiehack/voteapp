@@ -15,7 +15,15 @@
         },
         created(){
             console.log('!!! banner created');
-        }
+        },
+    sockets:{
+      connect: function(){
+        console.log('socket connected')
+      },
+		  haha(val){
+		    console.log('!~~! haha',val);
+      }
+    }
 	}
 </script>
 

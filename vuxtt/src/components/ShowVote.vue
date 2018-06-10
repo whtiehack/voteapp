@@ -10,6 +10,7 @@
 
             </checklist>
 
+
             <!-- 选中的投票信息-->
         </div>
         <div v-else>
