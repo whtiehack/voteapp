@@ -13,10 +13,11 @@
 <script>
     import {SERVER_URL} from '../utils';
     function getHaha(){
-	    this.$http.get(SERVER_URL+'/11.txt').then(({data}) => {
-		    console.log(data)
-		    this.msg = data;
-	    })
+	    // this.$http.get(SERVER_URL+'/11.txt').then(({data}) => {
+		 //    console.log(data)
+		 //    this.msg = data;
+	    // })
+
     }
 	export default {
 		data() {

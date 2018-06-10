@@ -100,13 +100,14 @@ const store = new Vuex.Store({
 		voteDatas:{
 			'ccxx':{
 				title:'votetitle',
-				remarks:'备注备注',
+				remarks:'备注remarks备注',
 				opinions:[
-					'afdacB','fa aad中文A'
+					'afdacB','无敌中的人呀了了','hahahAAFDSFDShafdsafdskfdafdslfd','77','8888','9dsfadsaf'
 				],
 				votes:[
-					['cc','bb'],
+					['cc','bb','fdasssssafdsaf(fdsafd)fdsafd','77safdsafdsa','sdfsf'],
 					[],
+          ['xxxx','vv','fds']
 				]
 			}
 		}
