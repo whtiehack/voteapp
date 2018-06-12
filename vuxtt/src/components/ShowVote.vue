@@ -6,7 +6,7 @@
       </x-input>
       <x-textarea :rows="2" title="备注:" readonly :value="voteData.remarks"></x-textarea>
 
-      <group>
+      <group title="选择选项：">
         <radio :options="opinionObj" v-model="radioIdx" @on-change="selectChange">
 
         </radio>
@@ -34,23 +34,21 @@
           </swiper-item>
         </swiper>
       </div>
+      <flexbox >
+        <flexbox-item :span="7">
+          <x-button type="primary" text="投票" @click.native="goBack"></x-button>
+        </flexbox-item>
+        <flexbox-item>
+          <x-button plain type="primary" text="查看统计结果" @click.native="goBack"></x-button>
+        </flexbox-item>
+      </flexbox>
     </div>
     <div v-else>
     </div>
-    <!--<div style="padding:15px 25%;">-->
-      <!--<x-button plain type="primary" text="返回" @click.native="goBack"></x-button>-->
-    <!--</div>-->
-    <flexbox style="padding:15px">
-      <flexbox-item :span="7">
-        <x-button type="primary" text="投票" @click.native="goBack"></x-button>
-      </flexbox-item>
-      <flexbox-item>
-        <x-button plain type="primary" text="统计" @click.native="goBack"></x-button>
-      </flexbox-item>
-      <flexbox-item>
-        <x-button plain type="primary" text="返回" @click.native="goBack"></x-button>
-      </flexbox-item>
-    </flexbox>
+    <div style="padding:15px 25%;">
+      <x-button plain type="primary" text="返回" @click.native="goBack"></x-button>
+    </div>
+
   </div>
 </template>
 
