@@ -1,3 +1,23 @@
 
 
-export const SERVER_URL = 'http://47.98.169.119:3000';
+
+import {AlertModule} from 'vux';
+
+export async function showModuleAlert(content,title='提示'){
+  return new Promise(resolve=>{
+    AlertModule.show({
+      title: title,
+      content: content,
+      onShow () {
+        console.log('Module alert: I\'m showing ')
+      },
+      onHide () {
+        console.log('Module: I\'m hiding now');
+        resolve();
+      }
+    })
+  })
+}
+
+
+

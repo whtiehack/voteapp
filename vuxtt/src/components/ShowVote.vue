@@ -14,7 +14,7 @@
 
       <!-- 选中的投票信息-->
       <div>
-        <tab :line-width=1 active-color='#fc378c' v-model="tabIndex" custom-bar-width="0">
+        <tab :line-width=1 active-color='green' v-model="tabIndex" custom-bar-width="0">
           <tab-item class="vux-center" :selected="curSelectName === item" v-for="(item, idx1) in voteData.opinions"
                     @click="curSelectName = item" :key="idx1" @on-item-click="tabClicked">{{item}}
           </tab-item>
@@ -43,7 +43,8 @@
         </flexbox-item>
       </flexbox>
     </div>
-    <div v-else>
+    <div v-else class="vux-center">
+      {{'no data.. maybe loading..'}}
     </div>
     <div style="padding:15px 25%;">
       <x-button plain type="primary" text="返回" @click.native="goBack"></x-button>

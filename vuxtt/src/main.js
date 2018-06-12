@@ -17,9 +17,11 @@ import {AjaxPlugin} from 'vux'
 import Vuex from 'vuex';
 import io from 'socket.io-client';
 import vueSocket from 'vue-socket.io';
+import {LoadingPlugin} from 'vux';
 
-Vue.use(AjaxPlugin)
-Vue.use(VueRouter)
+Vue.use(LoadingPlugin);
+Vue.use(AjaxPlugin);
+Vue.use(VueRouter);
 Vue.use(Vuex);
 Vue.use(vueSocket, 'http://127.0.0.1:3000');
 
@@ -45,7 +47,17 @@ Vue.prototype.$goBack = function () {
   } else {
     this.$router.go(-1);
   }
-}
+};
+
+Vue.prototype.$showLoading = function(text='加载中...'){
+  this.$vux.loading.show({
+    text
+  });
+};
+
+Vue.prototype.$hideLoading = function(){
+  this.$vux.loading.hide();
+};
 
 
 const routes = [

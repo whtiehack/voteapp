@@ -78,6 +78,9 @@
       goBack() {
         this.$goBack();
       }
+    },
+    created(){
+      
     }
   }
 </script>

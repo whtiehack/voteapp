@@ -26,7 +26,7 @@
         </group>
       </div>
       <div style="padding:15px 25%;">
-        <x-button type="primary" text="创建投票" v-on:click.native="addItem"></x-button>
+        <x-button type="primary" text="创建投票" v-on:click.native="createVote"></x-button>
         <x-button type="warn" text="返回" @click.native="goBack"></x-button>
       </div>
     </div>
@@ -36,6 +36,7 @@
 
 <script>
   import {XTextarea, Flexbox, FlexboxItem, GroupTitle, CellBox} from "vux";
+  import {showModuleAlert} from "../utils";
 
   export default {
     components: {
@@ -87,7 +88,11 @@
         this.$refs.opinioninput.focus();
       },
       goBack: function () {
-        this.$goBack('/');
+        this.$goBack();
+      },
+      async createVote(){
+        await showModuleAlert('haha');
+        this.goBack();
       }
     }
   };
