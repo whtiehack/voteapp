@@ -14,7 +14,7 @@
 
       <!-- 选中的投票信息-->
       <div>
-        <tab :line-width=1 active-color='#fc378c' v-model="tabIndex"  custom-bar-width="0" >
+        <tab :line-width=1 active-color='#fc378c' v-model="tabIndex" custom-bar-width="0">
           <tab-item class="vux-center" :selected="curSelectName === item" v-for="(item, idx1) in voteData.opinions"
                     @click="curSelectName = item" :key="idx1" @on-item-click="tabClicked">{{item}}
           </tab-item>
@@ -23,7 +23,7 @@
           <swiper-item v-for="(item, idx2) in voteData.opinions" :key="idx2">
             <div class="tab-swiper">
               <template v-if="voteData.votes && voteData.votes[idx2] && voteData.votes[idx2].length">
-                      <span  v-for="(vote,idx3) in voteData.votes[idx2]" :key="idx3">
+                      <span v-for="(vote,idx3) in voteData.votes[idx2]" :key="idx3">
                 {{vote+', '}}
               </span>
               </template>
@@ -34,12 +34,12 @@
           </swiper-item>
         </swiper>
       </div>
-      <flexbox >
+      <flexbox>
         <flexbox-item :span="7">
           <x-button type="primary" text="投票" @click.native="goBack"></x-button>
         </flexbox-item>
         <flexbox-item>
-          <x-button plain type="primary" text="查看统计结果" @click.native="goBack"></x-button>
+          <x-button plain type="primary" text="查看统计结果" @click.native="clickShowResult"></x-button>
         </flexbox-item>
       </flexbox>
     </div>
@@ -100,13 +100,16 @@
       goBack() {
         this.$goBack();
       },
+      clickShowResult() {
+        this.$router.push('/result/' + this.voteid);
+      },
       selectChange(value, label) {
         // 选项改变
         console.log('select change', value, label);
         this.tabIndex = parseInt(value);
       },
       tabClicked(index) {
-        console.log('tab clicked',index);
+        console.log('tab clicked', index);
         this.radioIdx = index;
       }
     }
