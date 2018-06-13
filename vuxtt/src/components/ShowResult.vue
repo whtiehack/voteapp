@@ -40,7 +40,7 @@
         const idxStr = idx+1;
         resultArr.push(idxStr+'. <b>'+opinion+'</b>:<br>');
         if(vote.votes[idx]){
-          resultArr.push(vote.votes[idx].join(',')+'<br>');
+          resultArr.push(vote.votes[idx].join('<br>')+'<br>');
           resultArr.push('<br>');
         }
       }

@@ -126,7 +126,7 @@ const store = new Vuex.Store({
           'afdacB', '无敌中的人呀了了', 'hahahAAFDSFDShafdsafdskfdafdslfd', '77', '8888', '9dsfadsaf'
         ],
         votes: [
-          ['cc', 'bb', 'fdasssssafdsaf(fdsafd)fdsafd', '77safdsafdsa', 'sdfsf'],
+          ['cc','fdaf','sfdsafdsa','hahah','哈哈哈哈','666666','fdsafdsafdsafds','122342343243', 'bb', 'fdasssssafdsaf(fdsafd)fdsafd', '77safdsafdsa', 'sdfsf'],
           [],
           ['xxxx', 'vv', 'fds']
         ]

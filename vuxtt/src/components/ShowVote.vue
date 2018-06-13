@@ -23,7 +23,7 @@
           <swiper-item v-for="(item, idx2) in voteData.opinions" :key="idx2">
             <div class="tab-swiper">
               <template v-if="voteData.votes && voteData.votes[idx2] && voteData.votes[idx2].length">
-                      <span v-for="(vote,idx3) in voteData.votes[idx2]" :key="idx3">
+                      <span v-for="(vote,idx3) in voteData.votes[idx2]" :key="idx3" @click="remark = vote" v-bind:style="{'background-color':idx3%2?'#f0f0f0':''}">
                 {{vote+', '}}
               </span>
               </template>
@@ -33,10 +33,12 @@
             </div>
           </swiper-item>
         </swiper>
+        <!--可选的备注-->
+        <x-input  :value="remark" placeholder="备注(选填)"></x-input>
       </div>
       <flexbox>
         <flexbox-item :span="7">
-          <x-button type="primary" text="投票" @click.native="goBack"></x-button>
+          <x-button type="primary" text="投票" @click.native="voteClick"></x-button>
         </flexbox-item>
         <flexbox-item>
           <x-button plain type="primary" text="查看统计结果" @click.native="clickShowResult"></x-button>
@@ -72,6 +74,7 @@
         radioIdx: 0,
         tabIndex: 0,
         curSelectName: '',
+        remark:'',
       }
     },
     computed: {
@@ -97,6 +100,9 @@
       document.title = title;
       this.$store.commit('updateTitle', title);
     },
+    mounted(){
+      console.log('!! mounted!! show vote');
+    },
     methods: {
       goBack() {
         this.$goBack();
@@ -112,6 +118,9 @@
       tabClicked(index) {
         console.log('tab clicked', index);
         this.radioIdx = index;
+      },
+      voteClick() {
+        this.$showLoading();
       }
     }
   };

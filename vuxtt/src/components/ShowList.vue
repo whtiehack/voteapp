@@ -80,7 +80,7 @@
       }
     },
     created(){
-      
+
     }
   }
 </script>
