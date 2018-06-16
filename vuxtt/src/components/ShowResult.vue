@@ -54,7 +54,8 @@
     },
     methods: {
       goBack() {
-        this.$goBack();
+      //  this.$goBack();
+        this.$router.replace('/showvote/'+this.voteid);
       }
 
     }

@@ -121,14 +121,15 @@ const store = new Vuex.Store({
       'ccxx': {
         title: 'votetitle',
         time: 0,
+        endTime:2342343,
         remarks: '备注remarks备注',
         opinions: [
           'afdacB', '无敌中的人呀了了', 'hahahAAFDSFDShafdsafdskfdafdslfd', '77', '8888', '9dsfadsaf'
         ],
         votes: [
-          ['cc','fdaf','sfdsafdsa','hahah','哈哈哈哈','666666','fdsafdsafdsafds','122342343243', 'bb', 'fdasssssafdsaf(fdsafd)fdsafd', '77safdsafdsa', 'sdfsf'],
+          [['姓名','备注'],['姓321名','备4324注'],['姓ss名','']],
           [],
-          ['xxxx', 'vv', 'fds']
+          [['fdaf','']]
         ]
       }
     }

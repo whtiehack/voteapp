@@ -23,8 +23,8 @@
           <swiper-item v-for="(item, idx2) in voteData.opinions" :key="idx2">
             <div class="tab-swiper">
               <template v-if="voteData.votes && voteData.votes[idx2] && voteData.votes[idx2].length">
-                      <span v-for="(vote,idx3) in voteData.votes[idx2]" :key="idx3" @click="remark = vote" v-bind:style="{'background-color':idx3%2?'#f0f0f0':''}">
-                {{vote+', '}}
+                      <span v-for="(vote,idx3) in voteData.votes[idx2]" :key="idx3" @click="remark = vote[1]" v-bind:style="{'background-color':idx3%2?'#f0f0f0':''}">
+                {{vote[0]+(vote[1]?'('+vote[1]+')':'')+', '}}
               </span>
               </template>
               <span v-else>
@@ -38,7 +38,7 @@
       </div>
       <flexbox>
         <flexbox-item :span="7">
-          <x-button type="primary" text="投票" @click.native="voteClick"></x-button>
+          <x-button type="primary" text="投票" @click.native="voteClick" :disabled="outDated"></x-button>
         </flexbox-item>
         <flexbox-item>
           <x-button plain type="primary" text="查看统计结果" @click.native="clickShowResult"></x-button>
@@ -75,6 +75,7 @@
         tabIndex: 0,
         curSelectName: '',
         remark:'',
+        outDated:false,
       }
     },
     computed: {
@@ -99,16 +100,20 @@
       }
       document.title = title;
       this.$store.commit('updateTitle', title);
+      if(this.voteData.endTime < Date.now()){
+        this.outDated = true;
+      }
     },
     mounted(){
       console.log('!! mounted!! show vote');
     },
     methods: {
       goBack() {
-        this.$goBack();
+      //  this.$goBack();
+        this.$router.replace('/showlist');
       },
       clickShowResult() {
-        this.$router.push('/result/' + this.voteid);
+        this.$router.replace('/result/' + this.voteid);
       },
       selectChange(value, label) {
         // 选项改变

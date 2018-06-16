@@ -11,7 +11,15 @@
               {{item.title}}
             </flexbox-item>
             <flexbox-item class="flex-demo">
-              {{new Date(item.time).toLocaleString()}}
+              <flexbox>
+                <flexbox-item>
+                  {{new Date(item.time).toLocaleString()}}
+                </flexbox-item>
+                <flexbox-item :style="{color:item.outDated?'red':''}">
+                  {{new Date(item.endTime).toLocaleString()}}
+                </flexbox-item>
+              </flexbox>
+
             </flexbox-item>
           </flexbox>
 
@@ -48,7 +56,9 @@
           result.push({
             id: id,
             title: item.title,
-            time: item.time
+            time: item.time,
+            endTime:item.endTime,
+            outDated:item.endTime<Date.now(),
           })
         }
         return result;
@@ -76,7 +86,8 @@
         this.$router.push('/showvote/' + id);
       },
       goBack() {
-        this.$goBack();
+      //  this.$goBack();
+        this.$router.replace('/');
       }
     },
     created(){
