@@ -2,8 +2,8 @@
   <div>
     <div style="padding:0 15px;">
       <group title="创建投票：">
-        <x-input placeholder="标题" ref="titleInput" @keyup.enter.native="titleEnter"></x-input>
-        <x-textarea style="" ref="desc" :max="200" @keyup.ctrl.enter.native="descEnter" :rows="2"
+        <x-input placeholder="标题" v-model="title" ref="titleInput" @keyup.enter.native="titleEnter"></x-input>
+        <x-textarea style="" ref="desc" v-model="remarks" :max="200" @keyup.ctrl.enter.native="descEnter" :rows="2"
                     name="description" placeholder="备注（可选）"></x-textarea>
         <x-switch title="在投票列表中隐藏" v-model="hideList" ></x-switch>
         <datetime-range title="选择截止日期" :start-date="dateRangeBegin" :end-date="dateRangeEnd" format="YYYY年MM月DD日" v-model="endTime"></datetime-range>
@@ -41,6 +41,7 @@
   import {XTextarea, Flexbox, FlexboxItem, XSwitch,DatetimeRange,
     GroupTitle, CellBox} from "vux";
   import {showModuleAlert} from "../utils";
+  import * as Message from 'sharecode/socketmessage.ts';
 
   function padTime(val){
     val = '00'+val;
@@ -119,8 +120,29 @@
         this.$router.replace('/');
       },
       async createVote(){
-        await showModuleAlert('haha');
-        this.goBack();
+        if(!this.title ||!this.items.length){
+          return showModuleAlert('标题没写，或者没有填写选项');
+        }
+        const endTime = new Date(this.endTime[0]);
+        endTime.setHours(this.endTime[1]);
+        endTime.setMinutes(this.endTime[2]);
+        if(endTime.getTime()<Date.now()){
+          return showModuleAlert('截止日期不对');
+        }
+        const voteData = {
+          title:this.title,
+          time:Date.now(),
+          endTime:endTime.getTime(),
+          remarks:this.remarks,
+          opinions:this.items,
+          hide:this.hideList,
+        };
+      //  await showModuleAlert('haha');
+        this.$sclient.createVote(voteData).then(voteid=>{
+          this.$router.replace('/showvote/'+voteid);
+        }).catch(err=>{
+          return showModuleAlert(err);
+        });
       }
     }
   };

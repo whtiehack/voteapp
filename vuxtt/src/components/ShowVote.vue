@@ -34,6 +34,7 @@
           </swiper-item>
         </swiper>
         <!--可选的备注-->
+        <x-input  :value="name" placeholder="填写大名" title="姓名:"></x-input>
         <x-input  :value="remark" placeholder="备注(选填)"></x-input>
       </div>
       <flexbox>
@@ -46,7 +47,7 @@
       </flexbox>
     </div>
     <div v-else class="vux-center">
-      {{'no data.. maybe loading..'}}
+      {{loadingStr}}
     </div>
     <div style="padding:15px 25%;">
       <x-button plain type="primary" text="返回" @click.native="goBack"></x-button>
@@ -60,6 +61,7 @@
     XTextarea, Flexbox, FlexboxItem, Radio,
     Tab, TabItem, Swiper, SwiperItem
   } from 'vux';
+  import {showModuleAlert} from "../utils";
 
   export default {
     name: "show-vote",
@@ -76,6 +78,8 @@
         curSelectName: '',
         remark:'',
         outDated:false,
+        name:'',
+        loadingStr:'loading....',
       }
     },
     computed: {
@@ -94,18 +98,31 @@
     },
     created() {
       console.log('!! show vote', this.voteid);
-      let title = '暂无数据';
-      if (this.voteData) {
-        title = this.voteData.title + '-投票';
+      this.$store.commit('updateTitle', 'loading...');
+
+      if(localStorage.getItem('votename')){
+        this.name = localStorage.getItem('votename');
       }
-      document.title = title;
-      this.$store.commit('updateTitle', title);
-      if(this.voteData.endTime < Date.now()){
-        this.outDated = true;
-      }
+
     },
     mounted(){
       console.log('!! mounted!! show vote');
+      this.$sclient.joinVote(this.voteid).then((result)=>{
+        console.log('!!!! voteData',this.$store.state.voteDatas[this.voteid],this.voteData,result);
+        let title = '暂无数据';
+        if (this.voteData) {
+          title = this.voteData.title + '-投票';
+          if(this.voteData.endTime < Date.now()){
+            this.outDated = true;
+          }
+        }
+        document.title = title;
+        this.$store.commit('updateTitle', title);
+      }).catch(err=>{
+        console.log('joinVote err',err);
+        this.loadingStr = err;
+        this.$store.commit('updateTitle', err);
+      });
     },
     methods: {
       goBack() {
@@ -125,7 +142,12 @@
         this.radioIdx = index;
       },
       voteClick() {
-        this.$showLoading();
+      //  this.$showLoading();
+        if(!this.name){
+          return showModuleAlert('没有填写大名');
+        }
+        localStorage.setItem('votename',this.name);
+
       }
     }
   };

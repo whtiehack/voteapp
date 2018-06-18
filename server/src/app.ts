@@ -2,19 +2,22 @@
 
 import * as socketio from 'socket.io';
 import * as path from 'path';
+import * as express from 'express';
+import * as nhttp from 'http';
+import {SOCKET_MESSAGE} from 'sharecode/socketmessage';
+import {SocketManager} from "./socket.manager";
 
-var app = require('express')();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+const app = express();
+const http = nhttp.createServer(app);
+const io = socketio(http);
 
 app.get('/', function(req, res){
     res.sendFile(path.resolve(__dirname+'/../public/index.html'));
 });
 
-io.on('connection', function(socket){
-    console.log('a user connected');
-    socket.emit('haha','gggg');
-});
+const socketManager = new SocketManager(io);
+
+
 
 http.listen(3000, function(){
     console.log('listening on *:3000');

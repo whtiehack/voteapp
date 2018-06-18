@@ -14,6 +14,7 @@
     "@types/vue": "^2.0.0",
     "@types/vue-router": "^2.0.0",
     "fastclick": "^1.0.6",
+    "sharecode": "file:../sharecode",
     "socket.io-client": "^2.1.1",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
@@ -23,6 +24,7 @@
     "vux": "^2.2.0"
   },
   "devDependencies": {
+    "@types/socket.io-client": "^1.4.32",
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.22.1",
     "babel-loader": "^7.1.1",

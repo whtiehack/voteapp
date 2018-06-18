@@ -20,7 +20,7 @@
       connect: function () {
         console.log('socket connected')
       },
-      haha(val) {
+      async haha(val) {
         console.log('!~~! haha', val);
       }
     }

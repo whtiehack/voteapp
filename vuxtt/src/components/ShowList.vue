@@ -15,7 +15,7 @@
                 <flexbox-item>
                   {{new Date(item.time).toLocaleString()}}
                 </flexbox-item>
-                <flexbox-item :style="{color:item.outDated?'red':''}">
+                <flexbox-item :style="{color:item.outDated?'red':'blue'}">
                   {{new Date(item.endTime).toLocaleString()}}
                 </flexbox-item>
               </flexbox>
@@ -47,14 +47,13 @@
     },
     computed: {
       vote() {
-        if (!this.$store.state.voteDatas) {
-          return;
+        if (!this.$store.state.voteList) {
+          return [];
         }
         const result = [];
-        for (const id in this.$store.state.voteDatas) {
-          const item = this.$store.state.voteDatas[id];
+        for (const item of this.$store.state.voteList) {
           result.push({
-            id: id,
+            id: item.id,
             title: item.title,
             time: item.time,
             endTime:item.endTime,
@@ -92,6 +91,9 @@
     },
     created(){
 
+    },
+    mounted(){
+      this.$sclient.joinList();
     }
   }
 </script>

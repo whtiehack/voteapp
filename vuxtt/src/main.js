@@ -15,17 +15,22 @@ import NotFound from './components/NotFound';
 import ShowResult from './components/ShowResult';
 import {AjaxPlugin} from 'vux'
 import Vuex from 'vuex';
-import io from 'socket.io-client';
 import vueSocket from 'vue-socket.io';
 import {LoadingPlugin} from 'vux';
+
+
+
+import {XButton, Box, Group, Cell, Divider, XInput,} from 'vux'
+import {SERVER_SOCKET_URL} from "./constants";
+import {SocketClient} from "./socket.client";
+
 
 Vue.use(LoadingPlugin);
 Vue.use(AjaxPlugin);
 Vue.use(VueRouter);
 Vue.use(Vuex);
-Vue.use(vueSocket, 'http://127.0.0.1:3000');
+Vue.use(vueSocket, SERVER_SOCKET_URL);
 
-import {XButton, Box, Group, Cell, Divider, XInput,} from 'vux'
 
 Vue.component('banner', Banner);
 Vue.component('divider', Divider)
@@ -65,7 +70,7 @@ const routes = [
     path: '/',
     component: Home,
     meta: {
-      title: '实时交互式投票-首页'
+      title: '交互式投票-首页'
     }
   },
   {
@@ -132,19 +137,44 @@ const store = new Vuex.Store({
           [['fdaf','']]
         ]
       }
-    }
+    },
+    voteList:[
+      // SmallVote
+      {
+        id:'ccxx',
+        title:'vovovovo',
+        time:432431431,
+        endTime:3243211112,
+      }
+    ]
   },
   mutations: {
     updateTitle(state, newTitle) {
       if (newTitle) {
         state.title = newTitle;
       }
+    },
+    addVoteData(state,voteData){
+      console.log('addVoteData commited');
+      Vue.set(state.voteDatas,voteData.id,voteData);
+     // state.voteDatas[voteData.id] = voteData;
+    },
+    addVoteSmall(state,list){
+      for(const val of list){
+        state.voteList.push(val);
+      }
     }
-  }
-})
+  },
+  // getters:{
+  //   getVoteData(state){
+  //     return voteid=>state.voteDatas[voteid];
+  //   }
+  // }
+});
+
 const router = new VueRouter({
   routes
-})
+});
 router.beforeEach((to, from, next) => {
 
   /* 路由发生变化修改页面title */
@@ -159,6 +189,9 @@ router.beforeEach((to, from, next) => {
 FastClick.attach(document.body)
 
 Vue.config.productionTip = false
+
+
+Vue.prototype.$sclient = new SocketClient(Vue.prototype.$socket,store);
 
 /* eslint-disable no-new */
 new Vue({
