@@ -95,7 +95,7 @@
     sockets:{
       connect(){
         console.log('show list connect');
-        this.$sclient.joinList();
+    //    this.$sclient.joinList();
       }
     },
     mounted(){

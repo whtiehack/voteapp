@@ -65,7 +65,7 @@
     sockets:{
       connect(){
         console.log('~~ show result connect');
-        this.joinVoteRoom();
+    //    this.joinVoteRoom();
       }
     },
     data(){

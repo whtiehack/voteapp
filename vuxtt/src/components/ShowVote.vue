@@ -125,7 +125,7 @@
     sockets:{
       connect(){
         console.log('!! show vote connect');
-        this.joinVote();
+    //    this.joinVote();
       }
     },
     methods: {
