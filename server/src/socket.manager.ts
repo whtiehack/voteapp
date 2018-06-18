@@ -50,6 +50,10 @@ export class SocketManager{
         if(!msg || !msg.id ||!msg.name ){
             return fn('参数错误');
         }
+        if(!msg.opinionIdx && msg.opinionIdx!=0){
+            return fn('没有选择选项');
+        }
+        console.log('client vote',msg);
         const result = await this.voteManager.userVote(msg.id,msg.opinionIdx,msg.name,msg.remark);
         if(result != EnumVoteManageResultCode.SUCCESS){
             return fn(result);

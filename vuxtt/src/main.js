@@ -135,7 +135,9 @@ const store = new Vuex.Store({
           [['姓名','备注'],['姓321名','备4324注'],['姓ss名','']],
           [],
           [['fdaf','']]
-        ]
+        ],
+        // name=>idx
+        votedNames:{},
       }
     },
     voteList:[
@@ -169,6 +171,8 @@ const store = new Vuex.Store({
       if(!voteData){
         return;
       }
+      Vue.set(voteData.votedNames,iVote.name,iVote.opinionIdx);
+      console.log('set vote name end');
       voteData.votes[iVote.opinionIdx].push([iVote.name,iVote.remark]);
     }
   },

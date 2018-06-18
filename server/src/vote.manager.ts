@@ -76,7 +76,7 @@ export class VoteManager {
             return EnumVoteManageResultCode.VOTE_HAS_VOTED;
         }
         voteData.votedNames[name] = voteIdx;
-        voteData.votes[voteIdx] = [name,remarks];
+        voteData.votes[voteIdx].push([name,remarks]);
         return EnumVoteManageResultCode.SUCCESS;
     }
 

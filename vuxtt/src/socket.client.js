@@ -37,6 +37,19 @@ export class SocketClient {
     })
   }
 
+  clientVote(iVote){
+    return new Promise((resolve,reject)=>{
+      console.log('client vote',iVote);
+      this.socket.emit(SOCKET_MESSAGE.VOTE,iVote,(err,result)=>{
+        if(err){
+          return reject(err);
+        }
+        this.store.commit('voteAddName',result);
+        resolve(result);
+      });
+    })
+  }
+
   joinVote(voteId){
     return new Promise((resolve,reject)=>{
       if(this.joinedRoom[voteId]){
@@ -53,6 +66,7 @@ export class SocketClient {
         this.joinedRoom[voteId] = result;
         this.store.commit('addVoteData',result);
         this.socket.on(SOCKET_EVENT.VOTE_ADD_NAME,iVote=>{
+          console.log('vote add name',iVote);
           this.store.commit('voteAddName',iVote);
         });
         resolve(result);

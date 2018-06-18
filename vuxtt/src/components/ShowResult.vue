@@ -23,33 +23,64 @@
       voteData() {
         return this.$store.state.voteDatas[this.voteid];
       },
+      result(){
+        const vote = this.voteData;
+        if(!vote){
+          return '';
+        }
+        const resultArr = [];
+        resultArr.push(`<h2>${vote.title}</h2>`);
+        resultArr.push('<p style="color:grey;">');
+        resultArr.push(vote.remarks);
+        resultArr.push('</p>');
+        resultArr.push('<br>');
+        for(let idx = 0;idx<vote.opinions.length;idx++){
+          const opinion = vote.opinions[idx];
+          const idxStr = idx+1;
+          resultArr.push(idxStr+'. <b>'+opinion+'</b>:<br>');
+          if(vote.votes[idx]){
+            const voteData = vote.votes[idx];
+            for(const v of voteData){
+              resultArr.push(v[0]);
+              if(v[1]){
+                resultArr.push(':<i style="color:grey;">');
+                resultArr.push(v[1]);
+                resultArr.push('</i>');
+              }
+              resultArr.push('<br>');
+            }
+            resultArr.push('<br>');
+          }
+        }
+        return resultArr.join('');
+      }
     },
     created() {
       console.log('voteid : ', this.voteid);
-      document.title = '投票结果 :' + this.voteid;
-      this.$store.commit('updateTitle', '投票结果 :' + this.voteid);
-      const vote = this.voteData;
-      const resultArr = [];
-      resultArr.push(`<h2>${vote.title}</h2>`);
-      resultArr.push('<p style="color:grey;">');
-      resultArr.push(vote.remarks);
-      resultArr.push('</p>');
-      resultArr.push('<br>');
-      for(let idx = 0;idx<vote.opinions.length;idx++){
-        const opinion = vote.opinions[idx];
-        const idxStr = idx+1;
-        resultArr.push(idxStr+'. <b>'+opinion+'</b>:<br>');
-        if(vote.votes[idx]){
-          resultArr.push(vote.votes[idx].join('<br>')+'<br>');
-          resultArr.push('<br>');
-        }
-      }
-      this.result = resultArr.join('');
 
+    },
+    mounted(){
+      this.$sclient.joinVote(this.voteid).then((result)=>{
+        let title = '暂无数据';
+        if (this.voteData) {
+          title = this.voteData.title + '-投票';
+        }
+        document.title = title;
+        this.$store.commit('updateTitle', title);
+        if(!this.voteData){
+          return;
+        }
+        document.title = '投票结果 :' + this.voteid;
+        this.$store.commit('updateTitle', '投票结果 :' + this.voteid);
+
+      }).catch(err=>{
+        console.log('joinVote err',err);
+        this.$store.commit('updateTitle', err);
+      });
     },
     data(){
       return {
-        result:''
+      //  result:'loading....'
       }
     },
     methods: {

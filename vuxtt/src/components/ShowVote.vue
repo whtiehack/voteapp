@@ -34,12 +34,12 @@
           </swiper-item>
         </swiper>
         <!--可选的备注-->
-        <x-input  :value="name" placeholder="填写大名" title="姓名:"></x-input>
-        <x-input  :value="remark" placeholder="备注(选填)"></x-input>
+        <x-input  v-model="name" placeholder="填写大名" title="姓名:"></x-input>
+        <x-input  v-model="remark" placeholder="备注(选填)"></x-input>
       </div>
       <flexbox>
         <flexbox-item :span="7">
-          <x-button type="primary" text="投票" @click.native="voteClick" :disabled="outDated"></x-button>
+          <x-button type="primary" :text="voteBtnText" @click.native="voteClick" :disabled="outDated || hasVoted"></x-button>
         </flexbox-item>
         <flexbox-item>
           <x-button plain type="primary" text="查看统计结果" @click.native="clickShowResult"></x-button>
@@ -83,6 +83,15 @@
       }
     },
     computed: {
+      voteBtnText(){
+        if(this.outDated){
+          return '投票过期了';
+        }
+        if(this.hasVoted){
+          return '投过了';
+        }
+        return '投票';
+      },
       voteData() {
         return this.$store.state.voteDatas[this.voteid];
       },
@@ -90,10 +99,14 @@
         if (this.voteData) {
           let val = this.voteData.opinions.map((tmp, idx) => {
             return {key: idx + '', value: tmp};
-          })
+          });
           return val;
         }
         return null;
+      },
+      hasVoted(){
+        return !!(this.voteData.votedNames[this.name] || this.voteData.votedNames[this.name] === 0);
+
       }
     },
     created() {
@@ -118,6 +131,7 @@
         }
         document.title = title;
         this.$store.commit('updateTitle', title);
+
       }).catch(err=>{
         console.log('joinVote err',err);
         this.loadingStr = err;
@@ -147,7 +161,18 @@
           return showModuleAlert('没有填写大名');
         }
         localStorage.setItem('votename',this.name);
-
+        this.$showLoading('通信中..');
+        this.$sclient.clientVote({
+          id:this.voteid,
+          name:this.name,
+          remark:this.remark,
+          opinionIdx:this.radioIdx,
+        }).then(()=>{
+          this.$hideLoading();
+        }).catch(err=>{
+          this.$hideLoading();
+          showModuleAlert(err);
+        });
       }
     }
   };

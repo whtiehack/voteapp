@@ -1,5 +1,8 @@
 
 
+interface _Votes{
+ [key:number]:string 
+}
 
 export interface VoteData{
   title:string;
@@ -7,7 +10,7 @@ export interface VoteData{
   endTime:number;
   remarks:string;
   opinions:string[];
-  votes:string[][];
+  votes:_Votes[][];
   // voted names
   votedNames:{[key:string]:number};
   // 在投票列表隐藏。 服务端字段
