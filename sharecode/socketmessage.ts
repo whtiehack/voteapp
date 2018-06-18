@@ -7,8 +7,10 @@ export const SOCKET_MESSAGE = {
   VOTE:'vote',
 };
 
+// client event
 export const SOCKET_EVENT = {
   VOTE_NOTIFY:'smallVote',
+  VOTE_ADD_NAME:'vote_addName',
 }
 
 export const SOCKET_SERVER_PUSH = {

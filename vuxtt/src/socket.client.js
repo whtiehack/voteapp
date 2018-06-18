@@ -52,6 +52,9 @@ export class SocketClient {
         }
         this.joinedRoom[voteId] = result;
         this.store.commit('addVoteData',result);
+        this.socket.on(SOCKET_EVENT.VOTE_ADD_NAME,iVote=>{
+          this.store.commit('voteAddName',iVote);
+        });
         resolve(result);
       })
     })

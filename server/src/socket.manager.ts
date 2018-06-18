@@ -34,6 +34,9 @@ export class SocketManager{
         }
         msg.votedNames = {};
         msg.votes = [];
+        for(let i=0;i<msg.opinions.length;i++){
+            msg.votes.push([]);
+        }
         const voteid = await this.voteManager.createVote(msg);
         if(!msg.hide){
             const smallVote = this.voteManager.trans2SmallVote(msg);
@@ -51,6 +54,8 @@ export class SocketManager{
         if(result != EnumVoteManageResultCode.SUCCESS){
             return fn(result);
         }
+        // notify
+        this.io.to(SOCKET_ROOM_NAME.VOTE_+msg.id).emit(SOCKET_EVENT.VOTE_ADD_NAME,msg);
         return fn(null,'success');
     }
 

@@ -163,6 +163,13 @@ const store = new Vuex.Store({
       for(const val of list){
         state.voteList.push(val);
       }
+    },
+    voteAddName(state,iVote){
+      const voteData = state.voteDatas[iVote.id];
+      if(!voteData){
+        return;
+      }
+      voteData.votes[iVote.opinionIdx].push([iVote.name,iVote.remark]);
     }
   },
   // getters:{
