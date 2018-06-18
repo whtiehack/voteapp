@@ -19,6 +19,10 @@ export class SocketClient {
     this.store = store;
   }
 
+  reconnectClear(){
+    this.joinedRoom = {};
+  }
+
   /**
    *
    * @param voteData

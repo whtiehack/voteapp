@@ -120,25 +120,34 @@
     },
     mounted(){
       console.log('!! mounted!! show vote');
-      this.$sclient.joinVote(this.voteid).then((result)=>{
-        console.log('!!!! voteData',this.$store.state.voteDatas[this.voteid],this.voteData,result);
-        let title = '暂无数据';
-        if (this.voteData) {
-          title = this.voteData.title + '-投票';
-          if(this.voteData.endTime < Date.now()){
-            this.outDated = true;
-          }
-        }
-        document.title = title;
-        this.$store.commit('updateTitle', title);
-
-      }).catch(err=>{
-        console.log('joinVote err',err);
-        this.loadingStr = err;
-        this.$store.commit('updateTitle', err);
-      });
+      this.joinVote();
+    },
+    sockets:{
+      connect(){
+        console.log('!! show vote connect');
+        this.joinVote();
+      }
     },
     methods: {
+      joinVote(){
+        this.$sclient.joinVote(this.voteid).then((result)=>{
+          console.log('!!!! voteData',this.$store.state.voteDatas[this.voteid],this.voteData,result);
+          let title = '暂无数据';
+          if (this.voteData) {
+            title = this.voteData.title + '-投票';
+            if(this.voteData.endTime < Date.now()){
+              this.outDated = true;
+            }
+          }
+          document.title = title;
+          this.$store.commit('updateTitle', title);
+
+        }).catch(err=>{
+          console.log('joinVote err',err);
+          this.loadingStr = err;
+          this.$store.commit('updateTitle', err);
+        });
+      },
       goBack() {
       //  this.$goBack();
         this.$router.replace('/showlist');
@@ -169,6 +178,7 @@
           opinionIdx:this.radioIdx,
         }).then(()=>{
           this.$hideLoading();
+          showModuleAlert('投票成功');
         }).catch(err=>{
           this.$hideLoading();
           showModuleAlert(err);

@@ -60,23 +60,13 @@
 
     },
     mounted(){
-      this.$sclient.joinVote(this.voteid).then((result)=>{
-        let title = '暂无数据';
-        if (this.voteData) {
-          title = this.voteData.title + '-投票';
-        }
-        document.title = title;
-        this.$store.commit('updateTitle', title);
-        if(!this.voteData){
-          return;
-        }
-        document.title = '投票结果 :' + this.voteid;
-        this.$store.commit('updateTitle', '投票结果 :' + this.voteid);
-
-      }).catch(err=>{
-        console.log('joinVote err',err);
-        this.$store.commit('updateTitle', err);
-      });
+      this.joinVoteRoom();
+    },
+    sockets:{
+      connect(){
+        console.log('~~ show result connect');
+        this.joinVoteRoom();
+      }
     },
     data(){
       return {
@@ -84,6 +74,25 @@
       }
     },
     methods: {
+      joinVoteRoom(){
+        this.$sclient.joinVote(this.voteid).then((result)=>{
+          let title = '暂无数据';
+          if (this.voteData) {
+            title = this.voteData.title + '-投票';
+          }
+          document.title = title;
+          this.$store.commit('updateTitle', title);
+          if(!this.voteData){
+            return;
+          }
+          document.title = '投票结果 :' + this.voteid;
+          this.$store.commit('updateTitle', '投票结果 :' + this.voteid);
+
+        }).catch(err=>{
+          console.log('joinVote err',err);
+          this.$store.commit('updateTitle', err);
+        });
+      },
       goBack() {
       //  this.$goBack();
         this.$router.replace('/showvote/'+this.voteid);

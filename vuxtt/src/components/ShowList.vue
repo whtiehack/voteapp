@@ -90,10 +90,16 @@
       }
     },
     created(){
-
+      this.$sclient.joinList();
+    },
+    sockets:{
+      connect(){
+        console.log('show list connect');
+        this.$sclient.joinList();
+      }
     },
     mounted(){
-      this.$sclient.joinList();
+    //  this.$sclient.joinList();
     }
   }
 </script>

@@ -6,6 +6,7 @@
 </template>
 
 <script>
+  import {showModuleAlert} from "../utils";``
   export default {
     name: "banner",
     computed: {
@@ -18,7 +19,12 @@
     },
     sockets: {
       connect: function () {
-        console.log('socket connected')
+        console.log('socket connected');
+        this.$sclient.reconnectClear();
+      },
+      disconnect(){
+        console.log('socket.io 断线了。');
+      //  showModuleAlert('websocket 断线了。建议刷新一下页面');
       },
       async haha(val) {
         console.log('!~~! haha', val);

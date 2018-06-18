@@ -123,31 +123,31 @@ const store = new Vuex.Store({
   state: {
     title: '',
     voteDatas: {
-      'ccxx': {
-        title: 'votetitle',
-        time: 0,
-        endTime:2342343,
-        remarks: '备注remarks备注',
-        opinions: [
-          'afdacB', '无敌中的人呀了了', 'hahahAAFDSFDShafdsafdskfdafdslfd', '77', '8888', '9dsfadsaf'
-        ],
-        votes: [
-          [['姓名','备注'],['姓321名','备4324注'],['姓ss名','']],
-          [],
-          [['fdaf','']]
-        ],
-        // name=>idx
-        votedNames:{},
-      }
+      // 'ccxx': {
+      //   title: 'votetitle',
+      //   time: 0,
+      //   endTime:2342343,
+      //   remarks: '备注remarks备注',
+      //   opinions: [
+      //     'afdacB', '无敌中的人呀了了', 'hahahAAFDSFDShafdsafdskfdafdslfd', '77', '8888', '9dsfadsaf'
+      //   ],
+      //   votes: [
+      //     [['姓名','备注'],['姓321名','备4324注'],['姓ss名','']],
+      //     [],
+      //     [['fdaf','']]
+      //   ],
+      //   // name=>idx
+      //   votedNames:{},
+      // }
     },
     voteList:[
       // SmallVote
-      {
-        id:'ccxx',
-        title:'vovovovo',
-        time:432431431,
-        endTime:3243211112,
-      }
+      // {
+      //   id:'ccxx',
+      //   title:'vovovovo',
+      //   time:432431431,
+      //   endTime:3243211112,
+      // }
     ]
   },
   mutations: {
@@ -174,7 +174,11 @@ const store = new Vuex.Store({
       Vue.set(voteData.votedNames,iVote.name,iVote.opinionIdx);
       console.log('set vote name end');
       voteData.votes[iVote.opinionIdx].push([iVote.name,iVote.remark]);
-    }
+    },
+    // clearDatas(state){
+    //   Vue.set(state,'voteDatas',{});
+    //   Vue.set(state,'voteList',[]);
+    // }
   },
   // getters:{
   //   getVoteData(state){
