@@ -19,6 +19,6 @@ const socketManager = new SocketManager(io);
 
 
 
-http.listen(3000, function(){
-    console.log('listening on *:3000');
+http.listen(3004, function(){
+    console.log('listening on *:3004');
 });
