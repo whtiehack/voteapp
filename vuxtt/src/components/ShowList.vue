@@ -95,6 +95,10 @@
     sockets:{
       connect(){
         console.log('show list connect');
+        if(this.$store.state.reconnect){
+          this.$store.commit('changeReconnectState');
+          this.$sclient.joinList();
+        }
     //    this.$sclient.joinList();
       }
     },

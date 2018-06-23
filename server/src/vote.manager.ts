@@ -3,6 +3,7 @@ import {VoteData,SmallVote} from 'sharecode/interface';
 
 export enum EnumVoteManageResultCode{
     SUCCESS,
+    REVOTING,
     NODATA = 'no vote data',
     VOTE_OUTDATED = 'vote outdated',
     VOTE_NO_OPINION = 'no opinion',
@@ -12,8 +13,17 @@ export enum EnumVoteManageResultCode{
 export class VoteManager {
     voteDatas:{[key:string]:VoteData} = {};
     voteIdxIncr:number = 0;
+    constructor(storeObject?:{voteDatas:any,voteIdxIncr:number}){
+        if(storeObject && storeObject.voteDatas){
+            this.voteDatas = storeObject.voteDatas;
+            this.voteIdxIncr = storeObject.voteIdxIncr;
+        }
+    }
+    public getStoreObject(){
+        return {voteDatas:this.voteDatas,voteIdxIncr:this.voteIdxIncr};
+    }
     async createVote(voteData:VoteData){
-        const voteId = await this.generateNewVoteId();
+        const voteId = await this.generateNewVoteId(voteData.hide);
         voteData.id = voteId;
         this.voteDatas[voteId] = voteData;
         return voteId;
@@ -60,6 +70,7 @@ export class VoteManager {
         return this.voteDatas[voteId];
     }
 
+    // 投票
     async userVote(voteId,voteIdx,name:string,remarks:string):Promise<EnumVoteManageResultCode>{
         const voteData = await this.getVoteData(voteId);
         if(!voteData){
@@ -71,16 +82,39 @@ export class VoteManager {
         if(!voteData.opinions[voteIdx]){
             return EnumVoteManageResultCode.VOTE_NO_OPINION;
         }
+        let isRevoting = false;
         // check has voted
-        if(voteData.votedNames[name] || voteData.votedNames[name] == 0){
-            return EnumVoteManageResultCode.VOTE_HAS_VOTED;
+        if( voteData.votedNames[name] || voteData.votedNames[name] == 0){
+            if(voteData.canRevoting){
+                // 找到删除
+                const idx = voteData.votedNames[name];
+                const data = voteData.votes[idx];
+                let delIdx = -1;
+                for(let vIdx in data){
+                    if(data[vIdx][0]==name){
+                        delIdx = vIdx as any;
+                        break;
+                    }
+                }
+                if(delIdx==-1){
+                    console.error('revoting find idx error',name,idx,data,voteId);
+                }else{
+                    isRevoting = true;
+                    data.splice(delIdx,1);
+                }
+            }else{
+                return EnumVoteManageResultCode.VOTE_HAS_VOTED;
+            }
         }
         voteData.votedNames[name] = voteIdx;
         voteData.votes[voteIdx].push([name,remarks]);
-        return EnumVoteManageResultCode.SUCCESS;
+        return isRevoting?EnumVoteManageResultCode.REVOTING:EnumVoteManageResultCode.SUCCESS;
     }
 
-    private async generateNewVoteId(){
+    private async generateNewVoteId(hide:boolean){
+        if(hide){
+            return Date.now()+'';
+        }
         return ++this.voteIdxIncr + '';
     }
 }

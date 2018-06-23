@@ -11,6 +11,7 @@ export const SOCKET_MESSAGE = {
 export const SOCKET_EVENT = {
   VOTE_NOTIFY:'smallVote',
   VOTE_ADD_NAME:'vote_addName',
+  VOTE_NAME_REVOTING:'vote_revoting',
 }
 
 export const SOCKET_SERVER_PUSH = {

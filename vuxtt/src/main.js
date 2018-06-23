@@ -148,13 +148,17 @@ const store = new Vuex.Store({
       //   time:432431431,
       //   endTime:3243211112,
       // }
-    ]
+    ],
+    reconnect:false,
   },
   mutations: {
     updateTitle(state, newTitle) {
       if (newTitle) {
         state.title = newTitle;
       }
+    },
+    changeReconnectState(state){
+      state.reconnect = !state.reconnect;
     },
     addVoteData(state,voteData){
       console.log('addVoteData commited');
@@ -173,6 +177,24 @@ const store = new Vuex.Store({
       }
       Vue.set(voteData.votedNames,iVote.name,iVote.opinionIdx);
       console.log('set vote name end');
+      voteData.votes[iVote.opinionIdx].push([iVote.name,iVote.remark]);
+    },
+    voteRevoting(state,iVote){
+      const voteData = state.voteDatas[iVote.id];
+      if(!voteData){
+        return;
+      }
+      const orgIdx = voteData.votedNames[iVote.name];
+      const votes = voteData.votes[orgIdx];
+      // 删除再添加
+      for(let i=0;i<votes.length;i++){
+        const data = votes[i];
+        if(data[0] === iVote.name){
+          votes.splice(i,1);
+          break;
+        }
+      }
+      Vue.set(voteData.votedNames,iVote.name,iVote.opinionIdx);
       voteData.votes[iVote.opinionIdx].push([iVote.name,iVote.remark]);
     },
     // clearDatas(state){

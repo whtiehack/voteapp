@@ -23,11 +23,14 @@
         this.$sclient.reconnectClear();
       },
       disconnect(){
-        console.log('socket.io 断线了。');
-        showModuleAlert('websocket 断线了。建议刷新一下页面');
+        console.log('socket.io 断线了。重新刷新数据');
+        if(!this.$store.state.reconnect){
+          this.$store.commit('changeReconnectState');
+        }
+      //  showModuleAlert('websocket 断线了。建议刷新一下页面');
       },
       async haha(val) {
-        console.log('!~~! haha', val);
+        console.log('!~~! emit success', val);
       }
     }
   }

@@ -4,10 +4,10 @@ import {VoteData,IVote} from 'sharecode/interface';
 import {EnumVoteManageResultCode, VoteManager} from "./vote.manager";
 
 export class SocketManager{
-    voteManager:VoteManager;
-    constructor(private readonly io:Server){
+    public voteManager:VoteManager;
+    constructor(private readonly io:Server,storeObj?:any){
         this.bindEvent();
-        this.voteManager = new VoteManager();
+        this.voteManager = new VoteManager(storeObj);
     }
 
     private bindEvent(){
@@ -55,12 +55,17 @@ export class SocketManager{
         }
         console.log('client vote',msg);
         const result = await this.voteManager.userVote(msg.id,msg.opinionIdx,msg.name,msg.remark);
-        if(result != EnumVoteManageResultCode.SUCCESS){
+        if(result != EnumVoteManageResultCode.SUCCESS && result != EnumVoteManageResultCode.REVOTING){
             return fn(result);
         }
         // notify
-        this.io.to(SOCKET_ROOM_NAME.VOTE_+msg.id).emit(SOCKET_EVENT.VOTE_ADD_NAME,msg);
-        return fn(null,'success');
+        if(result == EnumVoteManageResultCode.SUCCESS){
+            this.io.to(SOCKET_ROOM_NAME.VOTE_+msg.id).emit(SOCKET_EVENT.VOTE_ADD_NAME,msg);
+        }else{
+            this.io.to(SOCKET_ROOM_NAME.VOTE_+msg.id).emit(SOCKET_EVENT.VOTE_NAME_REVOTING,msg);
+        }
+
+        return fn(null,result==EnumVoteManageResultCode.SUCCESS?'success':'revoting');
     }
 
     private async joinRoom(socket:Socket,roomName:string,param:any,fn){

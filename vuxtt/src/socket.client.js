@@ -73,6 +73,10 @@ export class SocketClient {
           console.log('vote add name',iVote);
           this.store.commit('voteAddName',iVote);
         });
+        this.socket.on(SOCKET_EVENT.VOTE_NAME_REVOTING,iVote=>{
+          console.log('vote revoting',iVote);
+          this.store.commit('voteRevoting',iVote);
+        });
         resolve(result);
       })
     })

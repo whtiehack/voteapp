@@ -6,6 +6,7 @@
         <x-textarea style="" ref="desc" v-model="remarks" :max="200" @keyup.ctrl.enter.native="descEnter" :rows="2"
                     name="description" placeholder="备注（可选）"></x-textarea>
         <x-switch title="在投票列表中隐藏" v-model="hideList" ></x-switch>
+        <x-switch title="可以重新投票" v-model="canRevoting" ></x-switch>
         <datetime-range title="选择截止日期" :start-date="dateRangeBegin" :end-date="dateRangeEnd" format="YYYY年MM月DD日" v-model="endTime"></datetime-range>
       </group>
       <!-- 到期时间   在投票列表中隐藏。-->
@@ -70,6 +71,8 @@
         items: [],
         // 在列表中隐藏
         hideList:false,
+        // 可以重新投票
+        canRevoting:true,
         dateRangeBegin:'2018-06-11',
         dateRangeEnd:'2018-06-12',
         endTime:[],
@@ -136,6 +139,7 @@
           remarks:this.remarks,
           opinions:this.items,
           hide:this.hideList,
+          canRevoting:this.canRevoting,
         };
       //  await showModuleAlert('haha');
         this.$sclient.createVote(voteData).then(voteid=>{

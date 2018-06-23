@@ -15,6 +15,8 @@ export interface VoteData{
   votedNames:{[key:string]:number};
   // 在投票列表隐藏。 服务端字段
   hide?:boolean;
+  // 是否可以重新投票
+  canRevoting?:boolean;
   // 服务端字段 
   id?:string;
 }

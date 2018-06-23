@@ -4,7 +4,6 @@
       <x-button class="mybtn" type="primary" text="查看投票" link="/showlist"></x-button>
       <x-button class="mybtn" type="primary" text="创建投票" link="/create"></x-button>
       <!--<x-button class="mybtn" type="warn" text="即出登录" v-on:click.native="logout"></x-button>-->
-      <b>数据没有安全性。。服务器重启数据 就没了。..</b>
     </div>
 
 

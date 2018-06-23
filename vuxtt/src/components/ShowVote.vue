@@ -4,7 +4,7 @@
     <div v-if="voteData">
       <x-input title="标题:" :value="voteData.title" readonly>
       </x-input>
-      <x-textarea :rows="2" title="备注:" readonly :value="voteData.remarks"></x-textarea>
+      <x-textarea :rows="2" title="备注:" readonly :value="voteData.remarks+hideStr"></x-textarea>
 
       <group title="选择选项：">
         <radio :options="opinionObj" v-model="radioIdx" @on-change="selectChange">
@@ -39,7 +39,7 @@
       </div>
       <flexbox>
         <flexbox-item :span="7">
-          <x-button type="primary" :text="voteBtnText" @click.native="voteClick" :disabled="outDated || hasVoted"></x-button>
+          <x-button type="primary" :text="voteBtnText" @click.native="voteClick" :disabled="outDated || hasVoted===1"></x-button>
         </flexbox-item>
         <flexbox-item>
           <x-button plain type="primary" text="查看统计结果" @click.native="clickShowResult"></x-button>
@@ -71,6 +71,14 @@
       Flexbox, Radio,
       FlexboxItem, Tab, TabItem, SwiperItem, Swiper,
     },
+    watch:{
+      ["$route"](to,from){
+        // console.log('router change',to,from);
+        // console.log('vote id',this.voteid,'to id',to.params.voteid);
+        this.voteid = to.params.voteid;
+        this.joinVote();
+      }
+    },
     data() {
       return {
         radioIdx: 0,
@@ -80,6 +88,7 @@
         outDated:false,
         name:'',
         loadingStr:'loading....',
+        hideStr:'',
       }
     },
     computed: {
@@ -87,8 +96,10 @@
         if(this.outDated){
           return '投票过期了';
         }
-        if(this.hasVoted){
+        if(this.hasVoted === 1){
           return '投过了';
+        }else if(this.hasVoted === 2){
+          return '重新投票'
         }
         return '投票';
       },
@@ -97,15 +108,32 @@
       },
       opinionObj() {
         if (this.voteData) {
-          let val = this.voteData.opinions.map((tmp, idx) => {
+          return this.voteData.opinions.map((tmp, idx) => {
             return {key: idx + '', value: tmp};
           });
-          return val;
         }
         return null;
       },
+      // 0 没投票 1 投过了 2 重新投票
       hasVoted(){
-        return !!(this.voteData.votedNames[this.name] || this.voteData.votedNames[this.name] === 0);
+        const voted  = !!(this.voteData.votedNames[this.name] || this.voteData.votedNames[this.name] === 0);
+        if(voted && this.voteData.canRevoting){
+          if(this.voteData.votedNames[this.name]!== this.radioIdx){
+            return 2;
+          }
+          // 比较备注
+          const voteData = this.voteData.votes[this.radioIdx];
+          if(!voteData){
+            return 2;
+          }
+          for(const data of voteData){
+            if(data[0] === this.name){
+              console.log('找到投票了',data[1],this.remark)
+              return data[1] === this.remark?1:2;
+            }
+          }
+        }
+        return voted?1:0;
 
       }
     },
@@ -125,27 +153,38 @@
     sockets:{
       connect(){
         console.log('!! show vote connect');
+        if(this.$store.state.reconnect){
+          this.$store.commit('changeReconnectState');
+          this.joinVote();
+        }
     //    this.joinVote();
       }
     },
     methods: {
       joinVote(){
+        this.$showLoading();
         this.$sclient.joinVote(this.voteid).then((result)=>{
           console.log('!!!! voteData',this.$store.state.voteDatas[this.voteid],this.voteData,result);
           let title = '暂无数据';
           if (this.voteData) {
+            if(this.voteData.hide){
+              this.hideStr = '(这是一个隐藏投票)';
+            }
             title = this.voteData.title + '-投票';
             if(this.voteData.endTime < Date.now()){
               this.outDated = true;
+            }else{
+              this.outDated = false;
             }
           }
           document.title = title;
           this.$store.commit('updateTitle', title);
-
+          this.$hideLoading();
         }).catch(err=>{
           console.log('joinVote err',err);
           this.loadingStr = err;
           this.$store.commit('updateTitle', err);
+          this.$hideLoading();
         });
       },
       goBack() {
@@ -176,9 +215,9 @@
           name:this.name,
           remark:this.remark,
           opinionIdx:this.radioIdx,
-        }).then(()=>{
+        }).then((result)=>{
           this.$hideLoading();
-          showModuleAlert('投票成功');
+          showModuleAlert('投票成功 '+result);
         }).catch(err=>{
           this.$hideLoading();
           showModuleAlert(err);

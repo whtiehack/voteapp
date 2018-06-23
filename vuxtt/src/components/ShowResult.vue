@@ -19,6 +19,14 @@
     props: [
       'voteid'
     ],
+    watch:{
+      ["$route"](to,from){
+        // console.log('router change',to,from);
+        // console.log('vote id',this.voteid,'to id',to.params.voteid);
+        this.voteid = to.params.voteid;
+        this.joinVoteRoom();
+      }
+    },
     computed:{
       voteData() {
         return this.$store.state.voteDatas[this.voteid];
@@ -65,6 +73,10 @@
     sockets:{
       connect(){
         console.log('~~ show result connect');
+        if(this.$store.state.reconnect){
+          this.$store.commit('changeReconnectState');
+          this.joinVoteRoom();
+        }
     //    this.joinVoteRoom();
       }
     },
@@ -75,6 +87,7 @@
     },
     methods: {
       joinVoteRoom(){
+        this.$showLoading();
         this.$sclient.joinVote(this.voteid).then((result)=>{
           let title = '暂无数据';
           if (this.voteData) {
@@ -87,10 +100,11 @@
           }
           document.title = '投票结果 :' + this.voteid;
           this.$store.commit('updateTitle', '投票结果 :' + this.voteid);
-
+          this.$hideLoading();
         }).catch(err=>{
           console.log('joinVote err',err);
           this.$store.commit('updateTitle', err);
+          this.$hideLoading();
         });
       },
       goBack() {
