@@ -4,7 +4,6 @@
     "types": [
     // add node as an option
     ],
-    "outDir": "dist",
     "module": "commonjs",   //指定生成哪个模块系统代码
     "target": "es5",
     "lib": [
