@@ -37,7 +37,7 @@ function storeVotesInterval(){
         }
     });
 }
-const saveTime = 10000;//5*60*1000;
+const saveTime = 120000;//5*60*1000;
 // 5分钟保存一次数据
 setInterval(storeVotesInterval,saveTime);
 
