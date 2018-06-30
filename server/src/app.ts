@@ -15,9 +15,9 @@ const options = {
 };
 
 // https
-const server = https.createServer(options,app);
+//const server = https.createServer(options,app);
 // http
-// const server = http.createServer(app);
+const server = http.createServer(app);
 const io = socketio(server);
 
 app.get('/', function(req, res){
