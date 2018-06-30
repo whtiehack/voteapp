@@ -171,11 +171,7 @@
               this.hideStr = '(这是一个隐藏投票)';
             }
             title = this.voteData.title + '-投票';
-            if(this.voteData.endTime < Date.now()){
-              this.outDated = true;
-            }else{
-              this.outDated = false;
-            }
+            this.outDated = this.voteData.endTime < Date.now();
           }
           document.title = title;
           this.$store.commit('updateTitle', title);
