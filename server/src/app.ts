@@ -2,14 +2,23 @@
 
 import * as socketio from 'socket.io';
 import * as express from 'express';
-import * as nhttp from 'http';
-import {SOCKET_MESSAGE} from 'sharecode/socketmessage';
+import * as https from 'https';
+import * as http from 'http';
 import {SocketManager} from "./socket.manager";
 import {writeFile,readFileSync,existsSync} from "fs";
 import * as path from 'path';
 const app = express();
-const http = nhttp.createServer(app);
-const io = socketio(http);
+
+const options = {
+    cert: readFileSync(path.join(__dirname,'../cert/server.crt')).toString(),
+    key: readFileSync(path.join(__dirname,'../cert/server.key')).toString()
+};
+
+// https
+const server = https.createServer(options,app);
+// http
+// const server = http.createServer(app);
+const io = socketio(server);
 
 app.get('/', function(req, res){
     res.sendFile(path.resolve(__dirname+'/../public/index.html'));
@@ -41,6 +50,6 @@ const saveTime = 120000;//5*60*1000;
 // 5分钟保存一次数据
 setInterval(storeVotesInterval,saveTime);
 
-http.listen(3004, function(){
+server.listen(3004, function(){
     console.log('listening on *:3004');
 });
