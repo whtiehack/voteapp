@@ -76,7 +76,7 @@ npm run build
 
 ### DEMO
 
-[https://appvote.github.io](https://appvote.github.io)
+[https://votedemo.yoyo520.xyz](https://votedemo.yoyo520.xyz)
 
 
 
