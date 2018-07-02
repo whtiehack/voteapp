@@ -82,12 +82,12 @@ npm run build
 
 ## 放几张图说明这个程序能跑 (话说README图片怎么缩放？？ )
 
-* [](./screenshot/1.png)
-* [](./screenshot/2.png)
-* [](./screenshot/3.png)
-* [](./screenshot/4.png)
-* [](./screenshot/5.png)
-* [](./screenshot/6.png)
+* [screenshot/1.png](./screenshot/1.png)
+* [screenshot/2.png](./screenshot/2.png)
+* [screenshot/3.png](./screenshot/3.png)
+* [screenshot/4.png](./screenshot/4.png)
+* [screenshot/5.png](./screenshot/5.png)
+* [screenshot/6.png](./screenshot/6.png)
 
 
 
