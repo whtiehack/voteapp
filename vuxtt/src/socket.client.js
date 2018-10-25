@@ -17,6 +17,14 @@ export class SocketClient {
   constructor(socket,store){
     this.socket = socket;
     this.store = store;
+    this.socket.on(SOCKET_EVENT.VOTE_ADD_NAME,iVote=>{
+      console.log('vote add name',iVote);
+      this.store.commit('voteAddName',iVote);
+    });
+    this.socket.on(SOCKET_EVENT.VOTE_NAME_REVOTING,iVote=>{
+      console.log('vote revoting',iVote);
+      this.store.commit('voteRevoting',iVote);
+    });
   }
 
   reconnectClear(){
@@ -69,14 +77,6 @@ export class SocketClient {
         }
         this.joinedRoom[voteId] = result;
         this.store.commit('addVoteData',result);
-        this.socket.on(SOCKET_EVENT.VOTE_ADD_NAME,iVote=>{
-          console.log('vote add name',iVote);
-          this.store.commit('voteAddName',iVote);
-        });
-        this.socket.on(SOCKET_EVENT.VOTE_NAME_REVOTING,iVote=>{
-          console.log('vote revoting',iVote);
-          this.store.commit('voteRevoting',iVote);
-        });
         resolve(result);
       })
     })
