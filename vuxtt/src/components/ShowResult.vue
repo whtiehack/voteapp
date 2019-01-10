@@ -48,8 +48,9 @@
           resultArr.push(idxStr+'. <b>'+opinion+'</b>:<br>');
           if(vote.votes[idx]){
             const voteData = vote.votes[idx];
-            for(const v of voteData){
-              resultArr.push(v[0]);
+            for(let j = 0;j<voteData.length;j++){
+              let v = voteData[j]
+              resultArr.push("&nbsp;&nbsp;"+(j+1)+"> "+ v[0]);
               if(v[1]){
                 resultArr.push(':<i style="color:grey;">');
                 resultArr.push(v[1]);
