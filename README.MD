@@ -76,7 +76,7 @@ npm run build
 
 ### DEMO
 
-[https://votedemo.yoyo520.xyz](https://votedemo.yoyo520.xyz)
+[https://smallwhite110.gitee.io](https://smallwhite110.gitee.io)
 
 
 
